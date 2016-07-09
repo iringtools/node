@@ -9,14 +9,44 @@ var oraQuery = "SELECT * FROM T_METADATA";
 
 var sqlAttrs = {
     provider      : "sql",
-    user          : "iRINGLAB2Config",
-    password      : "iRINGLAB2Config",
-    server        : "CHISD91058\\MULTAPP",
-    database      : "iRINGLAB2Config"
+    user          : "node",
+    password      : "node",
+    server        : "localhost\\SQLEXPRESS",
+    database      : "node"
   }
 
-var sqlQuery = "SELECT * FROM dbo.Sites"
+var db = require('./sqldatabase.js');
 
+var sqlQuery = "SELECT * FROM dbo.Test"
+
+db.connect(sqlAttrs)
+.then(function() {
+    db.query(sqlQuery)
+    .then(function(recordset) {
+        console.dir(recordset);
+    }).catch(function(err) {
+        if (err) { console.error(err) }
+    });
+}).catch(function(err) {
+    if (err) { console.error(err) }
+});
+
+/*
+var Database = require("./sqldatabase.js");
+
+var db = new Database(sqlAttrs);
+
+var initTask = db.init(sqlAttrs);
+
+var queryTask = initTask.then(function() {
+    db.query(sqlQuery);
+})
+.then(function(result) {
+    console.dir(result);
+});
+*/
+
+/*
 var connAttrs = [ 
     { "attrs" : oraAttrs, "query" : oraQuery },
     { "attrs" : sqlAttrs, "query" : sqlQuery }
@@ -39,3 +69,4 @@ connAttrs.forEach( function(item) {
         }
     });
 });
+*/
