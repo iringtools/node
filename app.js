@@ -19,14 +19,17 @@ var db = require('./sqldatabase.js');
 
 var sqlQuery = "SELECT * FROM dbo.Test"
 
-db.connect(sqlAttrs)
+db.init(sqlAttrs)
 .then(function() {
-    db.query(sqlQuery)
-    .then(function(recordset) {
-        console.dir(recordset);
-    }).catch(function(err) {
-        if (err) { console.error(err) }
-    });
+    db.connect()
+    .then(function() {
+        db.query(sqlQuery)
+        .then(function(recordset) {
+            console.dir(recordset);
+        }).catch(function(err) {
+            if (err) { console.error(err) }
+        });
+    })
 }).catch(function(err) {
     if (err) { console.error(err) }
 });
