@@ -1,6 +1,7 @@
 module.exports = (function () {
 
     var oracledb = require("oracledb");
+    oracledb.outFormat = oracledb.OBJECT; 
     var _pool = null;
     var _connection = null;
 
@@ -20,7 +21,10 @@ module.exports = (function () {
     }
 
     function query(q) {
-        return _connection.execute(q);
+        return _connection.execute(q)
+            .then(function(result) {
+                return result.rows;
+            });
     }
 
     return {

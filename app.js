@@ -16,9 +16,14 @@ var sqlAttrs = {
   }
 var sqlQuery = "SELECT * FROM dbo.Test"
 
-var db = require('./oradatabase.js');
+var db = require('./database.js');
 var config = oraAttrs;
 var q = oraQuery;
+
+var sessions = [
+    { sqlAttrs, sqlQuery},
+    { oraAttrs, oraQuery}
+];
 
 db.init(config)
 .then(function() {
@@ -36,43 +41,3 @@ db.init(config)
 }).catch(function(err) {
     if (err) { console.error(err) }
 });
-
-/*
-var Database = require("./sqldatabase.js");
-
-var db = new Database(sqlAttrs);
-
-var initTask = db.init(sqlAttrs);
-
-var queryTask = initTask.then(function() {
-    db.query(sqlQuery);
-})
-.then(function(result) {
-    console.dir(result);
-});
-*/
-
-/*
-var connAttrs = [ 
-    { "attrs" : oraAttrs, "query" : oraQuery },
-    { "attrs" : sqlAttrs, "query" : sqlQuery }
-];
-
-connAttrs.forEach( function(item) {
-    var attrs = item["attrs"];
-    var query = item["query"]
-    var dbManager = require("./DatabaseManager.js")(attrs);
-
-    var initTask = dbManager.init(attrs);
-    
-    var queryTask = initTask.then(
-        dbManager.query(query)
-    );
-
-    queryTask.then(function(rows) {
-        if (rows) {
-            console.dir(rows);
-        }
-    });
-});
-*/
