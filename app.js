@@ -1,11 +1,11 @@
 var oraAttrs = {
     provider      : "ora",
-    user          : "dbkr_25111_317",
-    password      : "dbkr_25111_317",
-    connectString : "(description = (address_list = (address = (protocol = tcp)(host = ASHS91133.amers.ibechtel.com)(port = 1521)))(CONNECT_DATA = (SID = ASHDBKRO)(SERVER=DEDICATED)))"
+    user          : "node",
+    password      : "node",
+    connectString : "localhost/xe"
   }
 
-var oraQuery = "SELECT * FROM T_METADATA";
+var oraQuery = "SELECT * FROM Test";
 
 var sqlAttrs = {
     provider      : "sql",
@@ -14,22 +14,25 @@ var sqlAttrs = {
     server        : "localhost\\SQLEXPRESS",
     database      : "node"
   }
-
-var db = require('./sqldatabase.js');
-
 var sqlQuery = "SELECT * FROM dbo.Test"
 
-db.init(sqlAttrs)
+var db = require('./oradatabase.js');
+var config = oraAttrs;
+var q = oraQuery;
+
+db.init(config)
 .then(function() {
     db.connect()
     .then(function() {
-        db.query(sqlQuery)
+        db.query(q)
         .then(function(recordset) {
             console.dir(recordset);
         }).catch(function(err) {
             if (err) { console.error(err) }
         });
-    })
+    }).catch(function(err) {
+        if (err) { console.error(err) }
+    });
 }).catch(function(err) {
     if (err) { console.error(err) }
 });

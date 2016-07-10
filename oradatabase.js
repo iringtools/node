@@ -6,7 +6,7 @@ module.exports = (function () {
 
     function init(config) {
 
-        return new oracledb.createPool(config)
+        return oracledb.createPool(config)
             .then(function(pool){
                 _pool = pool;
             });  
@@ -20,8 +20,7 @@ module.exports = (function () {
     }
 
     function query(q) {
-        return new mssql.Request(_pool)
-            .query(q);
+        return _connection.execute(q);
     }
 
     return {
